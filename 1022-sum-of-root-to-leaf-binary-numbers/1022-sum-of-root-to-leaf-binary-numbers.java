@@ -14,30 +14,31 @@
  * }
  */
 class Solution {
-    
-    public void sumRootToLeaf(TreeNode root, String binaryDigit, ArrayList<String> listOfBinary){
+    int ans=0;
+    public void sumRootToLeaf(TreeNode root, int val){
         
         if(root==null)
             return;
             
         if(root.left==null && root.right==null){
-            listOfBinary.add(binaryDigit+root.val);
+            val = val<<1|root.val;
+            ans=ans+val;
             return;
         }
         
-        
-        sumRootToLeaf(root.left, binaryDigit+root.val,listOfBinary );
-        sumRootToLeaf(root.right, binaryDigit+root.val,listOfBinary );
+        val = val<<1|root.val;
+        sumRootToLeaf(root.left, val );
+        sumRootToLeaf(root.right, val );
         
     }
     
     public int sumRootToLeaf(TreeNode root) {
+        
         if(root.left==null && root.right==null)
             return root.val;
         
-        ArrayList<String> listOfBinary = new ArrayList<>();
-        sumRootToLeaf(root, "", listOfBinary);
+        sumRootToLeaf(root,0);
         
-        return listOfBinary.stream().mapToInt(s->Integer.parseInt(s, 2)).sum();
+        return ans;
     }
 }
